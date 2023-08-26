@@ -30,7 +30,7 @@ class PetViewSet(ActionSerializerMixin, ActionPermissionMixin, ReturnResponseMix
     ACTION_PERMISSIONS = {
         'list': [AllowAny],
         'create': [AllowAny],
-        'retrieve': [IsAuthenticated],
+        'retrieve': [AllowAny],
         'destroy': [IsSuperUser],
         'update': [IsAuthenticated],
         'partial_update': [IsAuthenticated],
@@ -62,6 +62,22 @@ class PetViewSet(ActionSerializerMixin, ActionPermissionMixin, ReturnResponseMix
     def partial_update(self, request, *args, **kwargs):
         return super().partial_update(request, *args, **kwargs)
 
+    @action(methods=['get'], detail=False, url_path='findByTags', url_name='findByTags')
+    @extend_schema(tags=[Web.Pet.PREFIX], summary='Finds Pets by tags')
+    def find_by_tags(self, request, *args, **kwargs):
+        """
+        Headers:
+            tags: tag1, tag2, tag3
+        """
+        tags = request.query_params.get('tags')
+        if not tags:
+            raise NotFoundException('Invalid tags')
+        if self.queryset.filter(tags__name__in=tags.split(',')).count() == 0:
+            raise NotFoundException('Not found')
+        queryset = self.get_queryset().filter(tags__name__in=tags.split(','))
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(data=serializer.data)
+
     @action(methods=['get'], detail=False, url_path='findByStatus', url_name='findByStatus')
     @extend_schema(tags=[Web.Pet.PREFIX], summary='Finds Pets by tags',
                    parameters=PetStatusChoices.get_values())
@@ -74,21 +90,5 @@ class PetViewSet(ActionSerializerMixin, ActionPermissionMixin, ReturnResponseMix
         if status not in PetStatusChoices.get_values():
             raise Exception('Invalid status')
         queryset = self.get_queryset().filter(status=status)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(data=serializer.data)
-
-    @action(methods=['get'], detail=False, url_path='findByTags', url_name='findByTags')
-    @extend_schema(tags=[Web.Pet.PREFIX], summary='Finds Pets by tags')
-    def find_by_tags(self, request, *args, **kwargs):
-        """
-        Headers:
-            - tags: tag1, tag2, tag3
-        """
-        tags = request.query_params.get('tags')
-        if not tags:
-            raise NotFoundException('Invalid tags')
-        if self.queryset.filter(tags__name__in=tags.split(',')).count() == 0:
-            raise NotFoundException('Not found')
-        queryset = self.get_queryset().filter(tags__name__in=tags.split(','))
         serializer = self.get_serializer(queryset, many=True)
         return Response(data=serializer.data)

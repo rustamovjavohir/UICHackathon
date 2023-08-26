@@ -36,7 +36,8 @@ class Category(SlugModel):
 
 
 class Pet(SlugModel):
-    name = models.CharField(max_length=255, verbose_name='Имя питомца')
+    name = models.CharField(max_length=255,
+                            verbose_name='Имя питомца')
     category = models.ForeignKey(Category,
                                  on_delete=models.CASCADE,
                                  related_name='category_pet',

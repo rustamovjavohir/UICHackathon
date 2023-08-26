@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from api.files.serializers import ImageSerializer
+from apps.file.models import Image
 from apps.product.models import (Pet, Tag, Category)
 
 
@@ -63,3 +64,16 @@ class PetSerializer(serializers.ModelSerializer):
             'updated_at',
             'created_at',
         )
+
+    def create(self, validated_data):
+        category_data = validated_data.pop('category')
+        tags_data = validated_data.pop('tags')
+        photoUrls_data = validated_data.pop('photoUrls')
+        category = Category.objects.get_or_create(**category_data)[0]
+        tags = [Tag.objects.get_or_create(**tag_data)[0] for tag_data in tags_data]
+        photoUrls = [Image.objects.get_or_create(**photoUrl_data)[0] for photoUrl_data in photoUrls_data]
+
+        pet = Pet.objects.create(category=category, **validated_data)
+        pet.tags.set(tags)
+        pet.photoUrls.set(photoUrls)
+        return pet

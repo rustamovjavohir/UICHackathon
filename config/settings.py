@@ -63,6 +63,7 @@ THIRD_APP = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'drf_extra_fields',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_APP

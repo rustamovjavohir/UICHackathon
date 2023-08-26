@@ -1,7 +1,9 @@
 from django.db import models
 from utils.models import BaseModel, SlugModel
 from product.models import Pet
+from auth_user.models import Customer
 # Create your models here.
+
 class Order(SlugModel):
     name = models.CharField(max_length=255, verbose_name='Название тега')
     STATUS = (
@@ -21,3 +23,23 @@ class Order(SlugModel):
 
     def __str__(self):
         return self.name[:10] or self.name
+    
+
+
+
+class Address(SlugModel):
+    street = models.CharField(max_length=150,)
+    city = models.CharField(max_length=150)
+    state = models.CharField(max_length=150)
+    zip_code = models.CharField(max_length=150)
+
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+    def __str__(self):
+        return self.street[:10] or self.street
+
+
+
+

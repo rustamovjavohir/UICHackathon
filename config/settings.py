@@ -37,7 +37,7 @@ HOST = env.str("HOST")
 # Application definition
 
 DEFAULT_APPS = [
-    # 'jazzmin',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +57,7 @@ THIRD_APP = [
     'telegram',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_spectacular',
     'drf_spectacular_sidecar',
 ]
@@ -148,11 +149,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-
 # ------------------------------------------SWAGGER_SETTINGS------------------------------------------------------------
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Sharq Taxi',
-    'DESCRIPTION': 'Api documentation for Sharq Taxi',
+    'TITLE': 'UIC hackathon',
+    'DESCRIPTION': 'Api documentation for UIC hackathon',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
@@ -214,13 +214,13 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "United Distribution Admin",
+    "site_title": "UIC Hackathon",
     #
     # # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_header": "Admin",
     #
     # # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "United Distribution",
+    "site_brand": "UIC",
     #
     # # Logo to use for your site, must be present in static files, used for brand on top left
     # "site_logo": r'logo\taxi.png',
@@ -238,7 +238,7 @@ JAZZMIN_SETTINGS = {
     # "site_icon": r'logo\taxi.png',
 
     # # Welcome text on the login screen
-    "welcome_sign": "United Distribution Admin panel",
+    "welcome_sign": "UIC Hackathon Admin panel",
     #
     # # Copyright on the footer
     "copyright": "rustamovdev.uz",
@@ -247,7 +247,7 @@ JAZZMIN_SETTINGS = {
     "search_model": "auth_user.User",
     #
     # # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
-    "user_avatar": 'profile_photo',
+    "user_avatar": 'profilePhoto',
     #
     # ############
     # # Top Menu #
@@ -259,15 +259,6 @@ JAZZMIN_SETTINGS = {
         # Url that gets reversed (Permissions can be added)
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
 
-        # external url that opens in a new window (Permissions can be added)
-        # {"name": "Дашбоард", "url": "dashboard", "new_window": True},
-
-        # model admin to link to (Permissions checked against model)
-        # {"model": "auth.User"},
-
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "order"},
-        # {"app": "shop"},
     ],
     #
     # #############
@@ -297,7 +288,7 @@ JAZZMIN_SETTINGS = {
     # "hide_models": [],
     #
     # # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["order", "user", "apartment", "advertising", "sendEmail", "selenium"],
+    "order_with_respect_to": ["order", "auth_user"],
     #
     # # Custom links to append to app groups, keyed on app name
     "custom_links": {
@@ -312,15 +303,10 @@ JAZZMIN_SETTINGS = {
     },
     # # for the full list of 5.13.0 free icon classes
     "icons": {
-        "user.User": "fas fa-user",
-        "sendEmail.Email": "fas fa-envelope",  # "fas fa-envelope"
-        "apartment.Apartment": "fas fa-building",
-        "shop.shop": "fas fa-store",
-        "shop.orderGroup": "fas fa-shopping-basket",
-        "auth_user.CustomUser": "fas fa-users-cog",
+        "auth_user.User": "fas fa-users-cog",
+        "auth_user.Customer": "fas fa-user",
         "auth_user.Manager": "fas fa-user-tie",
-        "auth_user.Seller": "fas fa-user",
-        "auth_user.BlackListUser": "fas fa-user-slash",
+        # "auth_user.BlackListUser": "fas fa-user-slash",
         "auth.Group": "fas fa-users",
 
     },
@@ -401,13 +387,6 @@ LOGGERS = {
     },
 }
 
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "formatters": FORMATTER,
-#     "handlers": HANDLERS,
-#     "loggers": LOGGERS,
-# }
 # ----------------------------------------------LOCAL SETTINGS----------------------------------------------------------
 try:
     from .local_settings import *

@@ -49,6 +49,9 @@ DEFAULT_APPS = [
 LOCAL_APPS = [
     # local
     'apps.auth_user',
+    'apps.product',
+    'apps.order',
+    'apps.file',
 ]
 
 THIRD_APP = [

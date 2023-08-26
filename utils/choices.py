@@ -55,3 +55,9 @@ class RegionChoices(TextChoices):
     KHOREZM = "khorezm", "Хорезм"
     KARAKALPAKSTAN = "karakalpakstan", "Каракалпакстан"
     TASHKENT_REGION = "tashkent_region", "Ташкентская область"
+
+
+class PetStatusChoices(TextChoices):
+    AVAILABLE = "available", "Доступен"
+    PENDING = "pending", "Ожидает"
+    SOLD = "sold", "Продан"

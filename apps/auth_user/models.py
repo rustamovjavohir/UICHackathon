@@ -4,6 +4,7 @@ from django.db import models
 from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ValidationError
 
+from apps.order.models import Address
 from utils.choices import UserRoleChoices, ClientStatusChoices, LangChoices
 from utils.models import BaseModel
 
@@ -143,9 +144,11 @@ class Customer(BaseModel):
                               choices=ClientStatusChoices.choices,
                               default=ClientStatusChoices.NEW,
                               verbose_name='Auth Статус')
-    address = models.CharField(max_length=512,
-                               blank=True, null=True,
-                               verbose_name='Адрес')
+    address = models.ForeignKey(Address,
+                                on_delete=models.SET_NULL,
+                                null=True, blank=True,
+                                add_help_text='Адрес',
+                                verbose_name='Адрес')
     lang = models.CharField(max_length=2,
                             choices=LangChoices.choices,
                             default=LangChoices.UZ,

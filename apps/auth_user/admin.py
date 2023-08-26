@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.auth_user.models import User, UserStatus
+from apps.auth_user.models import User, UserStatus, Customer
 from django.contrib.auth.admin import UserAdmin as AbstractUserAdmin
 
 
@@ -37,4 +37,11 @@ class UserAdmin(AbstractUserAdmin):
 class UserStatusAdmin(admin.ModelAdmin):
     list_display = ('id', 'status', 'created_at')
     list_display_links = ('id', 'status')
+    readonly_fields = ('created_at',)
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'created_at')
+    list_display_links = ('id', 'user')
     readonly_fields = ('created_at',)

@@ -61,3 +61,7 @@ class PetStatusChoices(TextChoices):
     AVAILABLE = "available", "Доступен"
     PENDING = "pending", "Ожидает"
     SOLD = "sold", "Продан"
+
+    @classmethod
+    def get_values(cls):
+        return [cls.AVAILABLE, cls.PENDING, cls.SOLD]

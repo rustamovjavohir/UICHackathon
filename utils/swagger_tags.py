@@ -1,7 +1,7 @@
 class Web:
     class Client:
-        """ SWAGGER TAGS FOR CLIENT MOBILE APP """
-        PREFIX = 'web_client'
+        """ SWAGGER TAGS FOR CLIENT WEB APP"""
+        PREFIX = 'client'
 
         PAYMENT = f'{PREFIX}_payment'
         CARD = f'{PREFIX}_card'
@@ -10,6 +10,10 @@ class Web:
         REGISTRATION = f'{PREFIX}_registration'
 
     class User:
-        """Swagger tags for staff mobile app"""
-        PREFIX = 'web_user'
+        """Swagger tags for staff web app"""
+        PREFIX = 'user'
         AUTHORIZATION = f'{PREFIX}_authorization'
+
+    class Pet:
+        """Swagger tags for pets web app"""
+        PREFIX = 'pet'

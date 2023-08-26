@@ -20,3 +20,4 @@ class UserTestCase(TestCase):
         self.assertEqual(self.user.password, "Pass12345")
         self.assertEqual(self.user.firstName, "Javohir")
         self.assertEqual(self.user.lastName, "Rustamov")
+
